@@ -9,10 +9,10 @@ export const Pagination = ({dataLength, mealsPerPage, setCurrentPage}) => {
   return (
     <div>
     <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul className="pagination">
         {/* <li class="page-item"><a class="page-link" href="#">Previous</a></li> */}
         {pages.map((page,index)=>
-            <li class="page-item" key={index}><a onClick={()=>setCurrentPage(page)} class="page-link" href="!#">{page}</a></li>
+            <li className="page-item" key={index}><a onClick={()=>setCurrentPage(page)} className="page-link" href="!#">{page}</a></li>
         )}
         {/* <li class="page-item"><a class="page-link" href="#">Next</a></li> */}
         </ul>

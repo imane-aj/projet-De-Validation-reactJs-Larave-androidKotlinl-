@@ -1,6 +1,8 @@
 import axios from 'axios'
 import React , { useState, useEffect }from 'react'
 import { Pagination } from './Pagination';
+import { ShowMeals } from './ShowMeals';
+import { Searchh } from './Searchh';
 
 function Meals() {
     const [data, setData] = useState([]);
@@ -26,17 +28,8 @@ function Meals() {
         <div className='row'>
         <div className='col-md-6'>
         <div className='row'>
-            {currentMeals.map((item, idx)=>
-                <div className='col-md-6' style={{marginBottom : '3em'}} key={idx}>
-                    <div className="card" >
-                        <img src={item.strMealThumb} className="card-img-top" alt="..." style={{height : '12em'}}/>
-                        <div className="card-strMealThumb">
-                            <h5 className="card-title">{item.strMeal}</h5>
-                            Youtube :<a href={item.strYoutube}> {item.strYoutube}</a>
-                        </div>
-                    </div>
-                </div>
-            )}
+            <Searchh />
+            <ShowMeals currentMeals={currentMeals} />
             <Pagination dataLength={data.length} mealsPerPage={mealsPerPage} setCurrentPage={setCurrentPage}/>
         </div>
         </div>

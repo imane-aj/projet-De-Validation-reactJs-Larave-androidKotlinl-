@@ -5,9 +5,19 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+.searchContainer{
+  position: relative;
+}
+.searchContainer svg{
+  position: absolute;
+  top: 2.2em;
+  right: 2em;
 }

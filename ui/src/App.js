@@ -1,5 +1,4 @@
 // import Search from './Search';
-import './App.css';
 import Meals from './components/Meals';
 
 function App() {
