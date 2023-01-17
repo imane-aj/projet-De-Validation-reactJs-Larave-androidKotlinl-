@@ -11,6 +11,7 @@ export const ShowMeals = ({currentMeals}) => {
                         <h5 className="card-title">{item.strMeal}</h5>
                         Youtube :<a href={item.strYoutube}> {item.strYoutube}</a>
                     </div>
+                    <button class="btn btn-outline-success">+</button>
                 </div>
             </div>
         )}

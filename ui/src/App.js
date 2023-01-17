@@ -1,11 +1,12 @@
 // import Search from './Search';
 import Meals from './components/Meals';
+import Test from './Test';
 
 function App() {
   return (
     <div className="App">
-      {/* <Search /> */}
-      <Meals />
+      <Test />
+      {/* <Meals /> */}
     </div>
   );
 }

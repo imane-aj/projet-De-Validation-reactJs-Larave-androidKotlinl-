@@ -12,11 +12,12 @@ class StagiaireController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $name)
+    public function index()
     {
         //
-        $students = Stagiare::where('name' ,'=', $name)->get();
+        $students = Stagiare::all();
         return $students;
+        
     }
 
     /**
@@ -46,9 +47,11 @@ class StagiaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request,$name)
     {
         //
+        $student = Stagiare::where('name' ,'like', $name.'%')->get();
+        return $student;
     }
 
     /**
@@ -57,9 +60,11 @@ class StagiaireController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Request $request,$id)
     {
         //
+        $student = Stagiare::find($id)->first();
+        return $student;
     }
 
     /**

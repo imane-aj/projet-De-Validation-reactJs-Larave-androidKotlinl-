@@ -20,4 +20,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resource('stagiaire/{name}', StagiaireController::class);
+Route::get('stagiaire/{name}', [StagiaireController::class, 'show']);
+Route::get('stagiaire', [StagiaireController::class, 'index']);
+Route::get('stagiaire/$id', [StagiaireController::class, 'edit']);
