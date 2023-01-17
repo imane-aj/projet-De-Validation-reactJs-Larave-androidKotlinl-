@@ -1,12 +1,12 @@
 // import Search from './Search';
 import Meals from './components/Meals';
-import Test from './Test';
+// import Test from './Test';
 
 function App() {
   return (
     <div className="App">
-      <Test />
-      {/* <Meals /> */}
+      {/* <Test /> */}
+      <Meals />
     </div>
   );
 }

@@ -8,7 +8,10 @@ body {
 
 
 }
-
+.fav{
+  margin-top: 1em;
+  margin-bottom: 1.4em;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
@@ -20,4 +23,14 @@ code {
   position: absolute;
   top: 2.2em;
   right: 2em;
+}
+.card{
+  position: relative;
+  padding: 10px;
+}
+.card button{
+  position: absolute;
+  bottom: 4.5em;
+  border-radius: 50px;
+  right: .5em;
 }
