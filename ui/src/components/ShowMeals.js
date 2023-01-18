@@ -1,7 +1,7 @@
 import axios from 'axios'
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect ,message} from 'react'
 
-export const ShowMeals = ({currentMeals, selectMeals}) => {
+export const ShowMeals = ({currentMeals, selectMeals, message}) => {
   return (
     <Fragment>
         {currentMeals.map((item, idx)=>
