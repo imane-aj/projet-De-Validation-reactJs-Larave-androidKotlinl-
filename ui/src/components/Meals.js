@@ -29,7 +29,7 @@ function Meals() {
     //selectMeals
     const selectMeals=(item)=>{
         console.log(item.strMeal)
-        if(dataSelected.length == 0 || dataSelected.find((e) => e.strMeal != item.strMeal)){
+        if(dataSelected.length == 0 || !dataSelected.find((e) => e.strMeal == item.strMeal)){
             axios.post('http://localhost:8000/api/favorite', item)
             .then((res => {
                 setDataSelected([...dataSelected,res.data])
