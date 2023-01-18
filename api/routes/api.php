@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FavoriteController;
 use App\Http\Controllers\StagiaireController;
 use App\Models\Stagiare;
 use Illuminate\Http\Request;
@@ -19,7 +20,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
-
 Route::get('stagiaire/{name}', [StagiaireController::class, 'show']);
 Route::get('stagiaire', [StagiaireController::class, 'index']);
-Route::get('stagiaire/$id', [StagiaireController::class, 'edit']);
+Route::post('favorite', [FavoriteController::class, 'store']);
+Route::get('favorite', [FavoriteController::class, 'index']);
+Route::delete('favorite/{id}',  [FavoriteController::class, 'destroy']);

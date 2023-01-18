@@ -42,7 +42,8 @@ class FavoriteController extends Controller
             'strMealThumb' => $request->strMealThumb,
             'strMeal' => $request->strMeal,
             'strYoutube' => $request->strYoutube
-        ])
+        ]);
+        return $fav;
     }
 
     /**
@@ -88,5 +89,7 @@ class FavoriteController extends Controller
     public function destroy($id)
     {
         //
+        $fav = Favorite::findOrFail($id);
+        return $fav->delete();
     }
 }
