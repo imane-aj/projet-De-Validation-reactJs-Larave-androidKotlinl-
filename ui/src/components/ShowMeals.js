@@ -5,7 +5,7 @@ export const ShowMeals = ({currentMeals, selectMeals}) => {
   return (
     <Fragment>
         {currentMeals.map((item, idx)=>
-            <div className='col-md-6' style={{marginBottom : '3em'}} key={idx}>
+            <div className='col-md-3' style={{marginBottom : '3em'}} key={idx}>
                 <div className="card" >
                     <img src={item.strMealThumb} className="card-img-top" alt="..." style={{height : '12em'}}/>
                     <div className="card-strMealThumb">
@@ -22,21 +22,28 @@ export const ShowMeals = ({currentMeals, selectMeals}) => {
 
 
 export const SelectedMeals = ({dataSelected,deletSelectedMeals}) => {
-   
   return (
     <Fragment>
-        {dataSelected.map((item, idx)=>
-            <div className='col-md-6' style={{marginBottom : '3em'}} key={idx}>
-                <div className="card" >
-                    <img src={item.strMealThumb} className="card-img-top" alt="..." style={{height : '12em'}}/>
-                    <div className="card-strMealThumb">
-                        <h5 className="card-title">{item.strMeal}</h5>
-                        Youtube :<a href={item.strYoutube}> {item.strYoutube}</a>
-                    </div>
-                    <button className="btn btn-outline-success" onClick={()=>{deletSelectedMeals(item.id)}}>-</button>
-                </div>
-            </div>
-        )}
+        <table className="table">
+            <thead>
+                <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Youtube Link</th>
+                    <th scope="col">Image</th>
+                    <th scope="col">Actions</th>
+                </tr>
+                </thead>
+            <tbody>
+                {dataSelected.map((item, idx)=>
+                    <tr key={idx}>
+                        <td>{item.strMeal}</td>
+                        <td><a href={item.strYoutube}>{item.strYoutube}</a></td>
+                        <td><img src={item.strMealThumb} className="card-img-top" alt="..." style={{height : '50px', width: '50px'}}/></td>
+                        <td><button className="btn btn-outline-success" onClick={()=>{deletSelectedMeals(item.id)}}>-</button></td>
+                    </tr>
+                )}
+            </tbody>
+        </table>
     </Fragment>
   )
 }

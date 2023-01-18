@@ -5,10 +5,12 @@ import { SelectedMeals, ShowMeals } from './ShowMeals';
 import { Searchh } from './Searchh';
 
 function Meals() {
+    const [message, setMessage] = useState('');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
     const [mealsPerPage, setMealsPerPage] = useState(4)
+    const [dataSelected, setDataSelected] = useState([])
     const fetchData = async() =>{
         setLoading(true)
         const res = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s')
@@ -25,20 +27,20 @@ function Meals() {
     const currentMeals = data.slice(indexOfTheFirstMeal , indexOfLastMeal)
 
     //selectMeals
-    const [selectedMeals, setSelectedMeals] = useState([])
     const selectMeals=(item)=>{
-        if(!selectedMeals.includes(item)){
+        let strMeal = item.strMeal
+        if(!dataSelected.find((e) => e.strMeal != item.strMeal)){
             axios.post('http://localhost:8000/api/favorite', item)
-            .then((res =>{
-                let arr = [res.data]
-                setSelectedMeals([...selectedMeals,arr])
+            .then((res => {
+                setDataSelected([...dataSelected,res.data])
+                getData()
             }))
+        }else{
+            console.log('The item exist already ..!!')
+            // setMessage('The item exist already ..!!')
         }
-        let newArr = data.filter(key => key !== item)
-        setData(newArr)
         getData()
     }
-    const [dataSelected, setDataSelected] = useState([])
 
     //get selected Data
     const getData = ()=>{
@@ -60,7 +62,7 @@ function Meals() {
   return (
     <div className='container'>
         <div className='row'>
-        <div className='col-md-6'>
+        <div className='col-md-9'>
         <div className='row'>
             {/* <Searchh/> */}
             <div className='searchContainer'>
@@ -74,11 +76,11 @@ function Meals() {
             <Pagination dataLength={data.length} mealsPerPage={mealsPerPage} setCurrentPage={setCurrentPage}/>
         </div>
         </div>
-        <div className='col-md-6'>
+        <div className='col-md-3'>
             <div className='row'>
                 <h4 className='fav'>Favorite</h4>
                 <SelectedMeals dataSelected={dataSelected} deletSelectedMeals={deletSelectedMeals}/>
-                <Pagination selectedMealsLength={selectedMeals.length} mealsPerPage={mealsPerPage} setCurrentPage={setCurrentPage}/>
+                <Pagination dataSelectedLength={dataSelected.length} mealsPerPage={mealsPerPage} setCurrentPage={setCurrentPage}/>
             </div>
         </div>
         </div>

@@ -1,16 +1,16 @@
 import React from 'react'
 
-export const Pagination = ({dataLength, mealsPerPage, setCurrentPage, selectedMealsLength}) => {
+export const Pagination = ({dataLength, mealsPerPage, setCurrentPage, dataSelectedLength}) => {
     let pages = []
     if(dataLength){
       for(let i = 1; i<= Math.ceil(dataLength/mealsPerPage); i++){
         pages.push(i)
+      }
     }
-    }
-    if(selectedMealsLength){
-      for(let i = 1; i<= Math.ceil(selectedMealsLength/mealsPerPage); i++){
+    if(dataSelectedLength){
+      for(let i = 1; i<= Math.ceil(dataSelectedLength/mealsPerPage); i++){
         pages.push(i)
-    }
+      }
     }
   return (
     <div>
