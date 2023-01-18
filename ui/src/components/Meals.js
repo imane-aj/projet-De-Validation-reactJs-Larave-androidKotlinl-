@@ -5,7 +5,7 @@ import { SelectedMeals, ShowMeals } from './ShowMeals';
 // import { Searchh } from './Searchh';
 
 function Meals() {
-    const [message, setMessage] = useState('');
+    const [message, setMessage] = useState('The item exist already ..!!');
     const [data, setData] = useState([]);
     const [loading, setLoading] = useState(false)
     const [currentPage, setCurrentPage] = useState(1)
@@ -36,7 +36,8 @@ function Meals() {
                 getData()
             }))
         }else{
-            setMessage('The item exist already ..!!')
+            message()
+
         }
     }
 
@@ -70,10 +71,12 @@ function Meals() {
                 <path d="M13 6.5a6.471 6.471 0 0 1-1.258 3.844c.04.03.078.062.115.098l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1.007 1.007 0 0 1-.1-.115h.002A6.5 6.5 0 1 1 13 6.5ZM6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11Z"/>
                 </svg>
             </div>
-            <div className="alert alert-warning alert-dismissible fade show" role="alert">
-                {message}
-                <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            {message ? 
+                (<div className="alert alert-warning alert-dismissible fade show" role="alert">
+                    {message}
+                    <button type="button" className="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>) : ''
+            }
             <ShowMeals currentMeals={currentMeals} selectMeals={selectMeals} message={message}/>
             <Pagination dataLength={data.length} mealsPerPage={mealsPerPage} setCurrentPage={setCurrentPage}/>
         </div>
