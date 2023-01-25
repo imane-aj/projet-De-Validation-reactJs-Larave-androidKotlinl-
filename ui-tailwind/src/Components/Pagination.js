@@ -11,9 +11,6 @@ const Pagination = ({meals}) => {
         pages.push(i)
       }
     }
-    // const setCurrentPage = (page)=>{
-    //     dispatch({type:'setCurrentPage', payload:page})
-    // }
     const {setCurrentPage} = paginationActions
     return (
         <nav aria-label="Page navigation example">

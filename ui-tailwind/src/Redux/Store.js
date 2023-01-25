@@ -1,19 +1,24 @@
 import { createSlice, createStore } from '@reduxjs/toolkit';
 
-const initState = {currentPage:1,mealsPerPage:8,indexOfLastMeal:0,indexOfTheFirstMeal:0}
+const initState = {
+    currentPage:1,
+    mealsPerPage:8,
+    indexOfLastMeal:8,
+    indexOfTheFirstMeal:0
+}
 
 const paginationSlice = createSlice({
     name: 'pagination',
     initialState: initState,
     reducers: {
         setCurrentPage: (state, action)=>{
-            console.log(action)
             state.currentPage = action.payload
-            console.log(state.currentPage)
             state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
             state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
-        }else{
-            
+        },
+        Meals: (state, action) =>{
+            state.meals = action.payload
+            console.log(state.meals)
         }
     }
 })
