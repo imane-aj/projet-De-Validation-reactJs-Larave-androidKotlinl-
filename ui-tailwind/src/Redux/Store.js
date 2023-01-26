@@ -4,7 +4,8 @@ const initState = {
     currentPage:1,
     mealsPerPage:8,
     indexOfLastMeal:8,
-    indexOfTheFirstMeal:0
+    indexOfTheFirstMeal:0,
+    meals : {}
 }
 
 const paginationSlice = createSlice({
@@ -12,13 +13,13 @@ const paginationSlice = createSlice({
     initialState: initState,
     reducers: {
         setCurrentPage: (state, action)=>{
-            state.currentPage = action.payload
-            state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
-            state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
+                state.currentPage = action.payload
+                state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
+                state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
         },
         Meals: (state, action) =>{
-            state.meals = action.payload
-            console.log(state.meals)
+            // state.meals = action.payload
+            console.log(action.type)
         }
     }
 })
@@ -36,5 +37,5 @@ const paginationSlice = createSlice({
 // }
 
 const store = createStore(paginationSlice.reducer)
-export const paginationActions = paginationSlice.actions
+export const {setCurrentPage, Meals} = paginationSlice.actions
 export default store
