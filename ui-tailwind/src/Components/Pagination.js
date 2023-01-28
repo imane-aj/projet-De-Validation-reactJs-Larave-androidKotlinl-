@@ -1,19 +1,22 @@
-import React, {useState} from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { paginationActions } from '../Redux/Store';
+import { setCurrentPage } from '../Redux/paginationSlice';
 
-const Pagination = ({meals}) => {
-    const state = useSelector(state=>state)
+const Pagination = ({meals, state, favorite}) => {
     const dispatch = useDispatch()
     let pages = []
-    if(meals.length){
+    if(meals?.length){
       for(let i = 1; i<= Math.ceil(meals.length/state.mealsPerPage); i++){
         pages.push(i)
       }
     }
-    const {setCurrentPage} = paginationActions
+    if(favorite?.length){
+        for(let i = 1; i<= Math.ceil(favorite.length/state.mealsPerPage); i++){
+          pages.push(i)
+        }
+      }
+      
     return (
-        <nav aria-label="Page navigation example">
+        <nav aria-label="Page navigation example" className='mt-5'>
             <ul className="inline-flex items-center -space-x-px">
                 {pages.map((page, idx)=>
                     <li key={idx}>

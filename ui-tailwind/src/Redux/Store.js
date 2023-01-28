@@ -1,41 +1,15 @@
-import { createSlice, createStore } from '@reduxjs/toolkit';
+import { configureStore} from '@reduxjs/toolkit';
+import paginationReducer from './paginationSlice'
+import mealsReducer from './mealsSlice'
+import modalReducer from './modalSlice'
+import favoriteSlice from './favoriteSlice';
 
-const initState = {
-    currentPage:1,
-    mealsPerPage:8,
-    indexOfLastMeal:8,
-    indexOfTheFirstMeal:0,
-    meals : {}
-}
-
-const paginationSlice = createSlice({
-    name: 'pagination',
-    initialState: initState,
-    reducers: {
-        setCurrentPage: (state, action)=>{
-                state.currentPage = action.payload
-                state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
-                state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
-        },
-        Meals: (state, action) =>{
-            // state.meals = action.payload
-            console.log(action.type)
-        }
+const store = configureStore({reducer:
+    {
+        pagination : paginationReducer,
+        meals : mealsReducer,
+        modal : modalReducer,
+        favorite : favoriteSlice,
     }
 })
-// const reducer = (state = initState, action)=>{
-//     state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
-//     state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
-//     if(action.type == 'setCurrentPage'){
-//         state = {...state, currentPage : action.payload}
-//         state.indexOfLastMeal = state.currentPage  * state.mealsPerPage
-//         state.indexOfTheFirstMeal = state.indexOfLastMeal - state.mealsPerPage
-//         // console.log(state.currentPage )
-//         return state
-//     }
-//     return state
-// }
-
-const store = createStore(paginationSlice.reducer)
-export const {setCurrentPage, Meals} = paginationSlice.actions
 export default store
