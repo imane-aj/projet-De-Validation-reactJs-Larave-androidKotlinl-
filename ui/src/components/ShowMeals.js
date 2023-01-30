@@ -4,7 +4,7 @@ import React, { Fragment, useState, useEffect ,message} from 'react'
 export const ShowMeals = ({currentMeals, selectMeals, message}) => {
   return (
     <Fragment>
-        {currentMeals.map((item, idx)=>
+        {currentMeals?.map((item, idx)=>
             <div className='col-md-3' style={{marginBottom : '3em'}} key={idx}>
                 <div className="card" >
                     <img src={item.strMealThumb} className="card-img-top" alt="..." style={{height : '12em'}}/>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Document</title>
+</head>
+<body>
+    <h3>Exercice 1</h3>
+        <input id="name" type="text" placeholder=".....">
+        <button id="add" onclick="addName()" style="color: chocolate; background-color: transparent;border: 1px solid chocolate;">ADD Name</button>
+        <br><br>
+        
+        <table id="tab" border="1">  
+        
+        </table>
+
+    <h3>Exercice 2</h3>
+        <div id="div"></div>
+    <h3>Exercice 3</h3>
+     
+    <script>
+        //ex 1
+        const addName = () => {
+           
+            const name = document.getElementById('name').value;
+            const table = document.getElementsByTagName('table')[0]; 
+            const newRow = table.insertRow(table.rows[0]);
+            
+            const cel1 = newRow.insertCell(0);
+            cel1.innerHTML = name;
+
+            document.getElementById('name').value = "";
+        }
+
+        // ex 2
+            const para = document.createElement("p");
+            const node = document.createTextNode("this is a new paragraph from Dom js");
+            para.appendChild(node);
+            const element = document.getElementById("div");
+            element.appendChild(para);
+
+        // ex 3
+
+        const Inscription = (age) => {
+            // use arrow function to return a value
+            const condition = () => age < 35 ? 'true' : 'false';
+            console.log(condition());
+        }
+        Inscription(40);
+        
+    </script>
+</body>
+</html>
