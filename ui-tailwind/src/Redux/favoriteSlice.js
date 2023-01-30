@@ -10,10 +10,11 @@ export const addFavorite = createAsyncThunk('favorite/addFavorite', async(item, 
     const res = await axios.post('http://localhost:8000/api/favorite',item)
     thunkAPI.dispatch(getFavorite());
 })
-export const deleteFavorite = createAsyncThunk('favorite/addFavorite', async(id)=>{
+export const deleteFavorite = createAsyncThunk('favorite/deleteFavorite', async(id)=>{
     const res = await axios.delete(`http://localhost:8000/api/favorite/${id}`)
     return id 
 })
+
 const favoriteSlice = createSlice({
     name : "favorite",
     initialState :{favorite : [], isLoading :false},

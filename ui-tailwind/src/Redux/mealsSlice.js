@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 export const getMeals = createAsyncThunk('meals/getMeals', async()=>{
+    console.log("sdvf")
     const res = await axios.get('https://www.themealdb.com/api/json/v1/1/search.php?s');
     return res.data.meals;
 })
