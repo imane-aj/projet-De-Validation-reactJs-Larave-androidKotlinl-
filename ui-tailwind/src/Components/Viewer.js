@@ -12,7 +12,6 @@ const Viewer = (show) => {
     const globalState = useSelector((state=>state))
     const [thisItem, setThisItem] = useState([])
     const [modal, setModal] = useState(false)
-    const [favIcon, setFavIcon] = useState('+')
 
     //get meals data
     useEffect(()=>{dispatch(getMeals()); dispatch(getFavorite())}, [dispatch])
@@ -22,12 +21,14 @@ const Viewer = (show) => {
     const favorite = globalState.favorite.favorite?.slice(globalState.pagination.indexOfTheFirstMeal, globalState.pagination.indexOfLastMeal)
 
     const selectData = (item)=>{
+        console.log(item)
         const favorite = globalState.favorite.favorite
         if(favorite.length == 0 || !favorite.find((e) => e.strMeal == item.strMeal)){
             dispatch(addFavorite(item))
+            dispatch(getFavorite(item))
         }
     }
-    // const i = favorite.find((e) => e.strMeal == item.strMeal)
+
   return (
     <Fragment>
         {show.show ? (
@@ -54,7 +55,7 @@ const Viewer = (show) => {
                 <div className='grid gap-8 grid-cols-2 lg:grid-cols-4'>
                     {currentMeals.map((item, idx)=>
                         <div className={` relative rounded px-3 py-2 border border-orange-300 ${animationStyles}`} key={idx}>
-                            <button className='absolute right-3 bottom-0' onClick={()=>{selectData(item)}}><i className={`${favorite.find((e) => e.strMeal == item.strMeal )? 'fa-solid' : 'fa-regular'} fa-star text-lg`}></i></button>
+                            <button className='absolute right-3 bottom-0' onClick={()=>{selectData(item)}}><i className={`${favorite?.find((e) => e?.strMeal == item?.strMeal )? 'fa-solid' : 'fa-regular'} fa-star text-lg`}></i></button>
                             <img src={item.strMealThumb} alt='' className='h-44 w-full pb-3'/>
                             <div className='flex justify-between'>
                                 <h6>{item.strMeal}</h6>
