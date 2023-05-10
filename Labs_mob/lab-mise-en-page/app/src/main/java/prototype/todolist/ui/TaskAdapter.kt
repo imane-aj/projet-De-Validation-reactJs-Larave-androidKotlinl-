@@ -3,6 +3,7 @@ package prototype.todolist.ui
 import android.app.Activity
 import android.content.Context
 import android.content.Intent
+import android.icu.text.SimpleDateFormat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,6 +19,8 @@ import androidx.recyclerview.widget.RecyclerView
 import prototype.todolist.R
 import prototype.todolist.data.TaskEntry
 import prototype.todolist.data.TaskRepository
+import java.util.Date
+import java.util.Locale
 
 
 class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
@@ -54,19 +57,27 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
         }else if(task.priority == 3){
             taskViewHolder.taskPriority.text = taskViewHolder.priorityArray[2]
         }
+        val dateFormat = SimpleDateFormat("dd/MM/yyyy HH:mm:ss", Locale.getDefault())
 
-        taskViewHolder.taskTimestamp.text = task.timestamp.toString()
+        // Convert the timestamp to a Date object
+        val date = Date(task.timestamp)
+
+        // Format the date and set it to the taskTimestamp TextView
+        val formattedDate = dateFormat.format(date)
+        taskViewHolder.taskTimestamp.text = formattedDate
 
         taskViewHolder.cardView.setOnClickListener {
 
             task.title = task.title + "+"
             // Todo : supprimer ces deux lignes et voir est ce que RecyclerView continue d'afficher les updates ?
-            val repository = TaskRepository()
-            repository.save(task)
+//            val repository = TaskRepository()
+//            repository.save(task)
+            //  oui RecyclerView continue d'afficher les updates
             this.notifyDataSetChanged()
 
             // Todo : Afficher un message aprés Update
-            // Toast.makeText(context,"Update $task", Toast.LENGTH_LONG).show()
+            //Toast.makeText(this,"Update $task", Toast.LENGTH_LONG).show()
+            Toast.makeText(taskViewHolder.itemView.context, "Update ${task.title}", Toast.LENGTH_LONG).show()
         }
     }
 
