@@ -49,7 +49,7 @@ class TaskAdapter() : RecyclerView.Adapter<TaskAdapter.TaskViewHolder>() {
 
     override fun onBindViewHolder(taskViewHolder: TaskViewHolder, position: Int) {
         val task = this.taskRepository.getAllTasks()[position]
-        taskViewHolder.taskTitle.text = task.title
+            taskViewHolder.taskTitle.text = task.title
         if(task.priority == 1){
             taskViewHolder.taskPriority.text = taskViewHolder.priorityArray[0]
         }else if(task.priority == 2){
