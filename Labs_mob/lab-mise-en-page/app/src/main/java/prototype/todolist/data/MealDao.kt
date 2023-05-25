@@ -1,35 +1,49 @@
-package prototype.todolist.dao
-
-import okhttp3.OkHttpClient
-import prototype.todolist.dao.api.Api
-import prototype.todolist.model.MealEntry
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
+package prototype.todolist.data
 
 class MealDao {
 
-    companion object{
-        private val client = OkHttpClient.Builder().build()
+    companion object {
+        private var meal_count = 0
+        private var list_meals : MutableList<MealEntry> = mutableListOf<MealEntry>()
 
-        private val retrofit =  Retrofit.Builder()
-                .baseUrl("http://127.0.0.1:8000/api/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .client(client)
-                .build() //Doesn't require the adapter
+        init {
+            for( i in 1..10){
 
-        fun <T> buildService(service: Class<T>): T {
-            return retrofit.create(service)
-        }
+                val meal = MealEntry(++meal_count,"Meal $i",1.01,null)
+                list_meals.add(0,meal)
+            }
         }
     }
 
-    //suspend fun getMeal() = apiService.getMeals()
+    fun insert(mealEntry: MealEntry){
+        mealEntry.id = ++MealDao.meal_count
+        MealDao.list_meals.add(0,mealEntry)
+    }
 
-//    suspend fun findById(id : Int ) = apiService.findById(id)
-//
-//    suspend fun delete(id : Int ) = apiService.delete(id)
-//
-//    suspend fun save(task : Task ) = apiService.save(task)
-//
-//    suspend fun update(task : Task ) = apiService.update(task.id, task)
+    fun delete(id: Int){
+        var index = this.findIndexById(id)
+        list_meals.removeAt(index)
+    }
 
+    fun update(mealEntry: MealEntry){
+        var index = this.findIndexById(mealEntry.id);
+        MealDao.list_meals[index] = mealEntry
+    }
+
+    private fun findIndexById(id: Int): Int {
+        val index = MealDao.list_meals.withIndex().filter { it.value.id == id }.map{it.index}.first()
+        return index
+    }
+
+
+    fun getAllMeals(): MutableList<MealEntry> {
+        return MealDao.list_meals
+    }
+
+    fun findById(id: Int) :MealEntry {
+        val meal = MealDao.list_meals.filter { it.id == id }.first()
+        return meal
+    }
+
+
+}

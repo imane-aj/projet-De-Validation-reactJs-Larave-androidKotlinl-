@@ -1,62 +1,35 @@
 package prototype.todolist
 
-import android.annotation.SuppressLint
-import android.app.Activity
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.Menu
-import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import android.content.Context
-import android.widget.TextView
-import prototype.todolist.data.TaskEntry
-import prototype.todolist.data.TaskRepository
+import androidx.appcompat.app.AppCompatActivity
+import androidx.navigation.NavController
+import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.ui.setupActionBarWithNavController
 import prototype.todolist.databinding.ActivityMainBinding
-import prototype.todolist.ui.TaskAdapter
-import kotlin.random.Random
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.apply {
-
-            val taskAdapter = TaskAdapter()
-
-            recyclerView.layoutManager = LinearLayoutManager(applicationContext)
-            recyclerView.adapter =  taskAdapter
-            floatingActionButton.setOnClickListener{
-
-                val strings = resources.getStringArray(R.array.priorities)
-                val repository = TaskRepository()
-                val newTask = repository.newTask();
-
-//                if(newTask.priority == 1){
-//                    newTask.title = "New task" + strings[0]
-//                }else if(newTask.priority == 2){
-//                    newTask.title = "New task" + strings[1]
-//                }else if(newTask.priority == 3){
-//                    newTask.title = "New task" + strings[2]
-//                }else{
-//                    newTask.title = "New task" + Random.nextInt()
-//                }
-                newTask.title = "New task" + Random.nextInt()
-                repository.save(newTask)
-
-                Toast.makeText(applicationContext,"Ajouter une tâche", Toast.LENGTH_LONG).show()
-                taskAdapter.notifyDataSetChanged()
-            }
-
-        }
-
+        // Get the navigation host fragment from this Activity
+        val navHostFragment = supportFragmentManager
+            .findFragmentById(R.id.nav_host_fragment) as NavHostFragment
+        // Instantiate the navController using the NavHostFragment
+        navController = navHostFragment.navController
+        // Make sure actions in the ActionBar get propagated to the NavController
+        setupActionBarWithNavController(navController)
     }
 
-}
+    /**
+     * Enables back button support. Simply navigates one element up on the stack.
+     */
+    override fun onSupportNavigateUp(): Boolean {
+        return navController.navigateUp() || super.onSupportNavigateUp()
+    }
+
+    }

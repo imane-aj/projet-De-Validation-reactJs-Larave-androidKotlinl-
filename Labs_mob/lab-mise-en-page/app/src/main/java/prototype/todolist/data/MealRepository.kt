@@ -1,29 +1,23 @@
-//package prototype.todolist.repository
-//
-//import org.json.JSONObject
-//import prototype.todolist.dao.MealDao
-//import prototype.todolist.model.MealEntry
-//
-//class MealRepository {
-//    private val mealDao = MealDao()
-//
-//    suspend fun getMeals() {
-//        val response = mealDao.getMeal()
-//        println("API Response: $response") // Print the response for debugging
-//        // Rest of the code to parse the response and return meals list
-//    }
-////    suspend fun findById(id : Int) = mealDao.findById(id)
-////
-////    suspend fun delete(id : Int) = mealDao.delete(id)
-////
-////    suspend fun save(meal : MealEntry){
-////        if(meal.id == 0){
-////            // save
-////            mealDao.save(meal)
-////        }else{
-////            // update
-////            mealDao.update(meal)
-////        }
-////
-////    }
-//}
+package prototype.todolist.data
+
+class MealRepository () {
+
+    private val mealDao = MealDao()
+    private fun insert(mealEntry: MealEntry) = mealDao.insert(mealEntry)
+    private fun update(mealEntry: MealEntry) = mealDao.update(mealEntry)
+    fun delete(mealId: Int) = mealDao.delete(mealId)
+    fun getAllMeals() = mealDao.getAllMeals()
+    fun findById(id: Int) = mealDao.findById(id)
+    fun newMeal(): MealEntry {
+        return MealEntry(0,"meal",1.01,null)
+    }
+
+    fun save(mealEntry: MealEntry) {
+
+        if(mealEntry.id == 0){
+            this.insert(mealEntry)
+        }else{
+            this.update(mealEntry)
+        }
+    }
+}

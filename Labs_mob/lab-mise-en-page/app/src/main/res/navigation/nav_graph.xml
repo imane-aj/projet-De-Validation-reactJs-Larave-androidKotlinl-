@@ -1,6 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
-             xmlns:app="http://schemas.android.com/apk/res-auto"
-             android:id="@+id/nav_graph.xml">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph.xml"
+    app:startDestination="@id/managerFragment">
 
+    <fragment
+        android:id="@+id/managerFragment"
+        android:name="prototype.todolist.ui.ManagerFragment"
+        android:label="fragment_manager"
+        tools:layout="@layout/fragment_manager" >
+        <action
+            android:id="@+id/action_managerFragment_to_panierFragment"
+            app:destination="@id/panierFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/panierFragment"
+        android:name="prototype.todolist.ui.PanierFragment"
+        android:label="fragment_panier"
+        tools:layout="@layout/fragment_panier" >
+        <argument
+            android:name="mealId"
+            app:argType="integer" />
+    </fragment>
 </navigation>
