@@ -1,3 +1,8 @@
 package prototype.todolist.model
 
-data class Meal()
+data class Meal(
+    var id: Int,
+    val name: String,
+    val price: Double,
+    val picture: String?
+)
