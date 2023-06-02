@@ -4,5 +4,5 @@ data class Meal(
     var id: Int,
     val name: String,
     val price: Double,
-    val picture: String?
+    val img: String?
 )

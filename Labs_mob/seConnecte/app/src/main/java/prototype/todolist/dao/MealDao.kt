@@ -74,4 +74,8 @@ class MealDao {
         val mediaType = "application/json".toMediaTypeOrNull()
         return requestBodyJson.toRequestBody(mediaType)
     }
+
+    suspend fun addToCart(token: String, mealId: Int): Response<JsonObject> {
+        return apiService.addToCart("Bearer $token", mealId)
+    }
 }

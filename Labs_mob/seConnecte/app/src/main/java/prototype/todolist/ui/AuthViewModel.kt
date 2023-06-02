@@ -1,4 +1,25 @@
 package prototype.todolist.ui
 
-class AuthViewModel {
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
+
+class AuthViewModel : ViewModel() {
+    private val _isLoggedIn = MutableLiveData<Boolean>()
+    val isLoggedIn: LiveData<Boolean> get() = _isLoggedIn
+
+    private val _token = MutableLiveData<String>()
+    val token: LiveData<String> get() = _token
+
+    fun setLoggedIn(value: Boolean) {
+        _isLoggedIn.value = value
+    }
+
+    fun setToken(token: String) {
+        _token.value = token
+    }
+
+    fun getToken(): String? {
+        return _token.value
+    }
 }

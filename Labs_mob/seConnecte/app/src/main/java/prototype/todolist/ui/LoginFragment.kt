@@ -1,11 +1,13 @@
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
@@ -13,20 +15,16 @@ import kotlinx.coroutines.launch
 import prototype.todolist.dao.MealDao
 import prototype.todolist.databinding.FragmentLoginBinding
 import prototype.todolist.model.LoginResponse
+import prototype.todolist.ui.AuthViewModel
 import prototype.todolist.ui.BaseFragment
 import prototype.todolist.ui.ManagerFragmentDirections
+import prototype.todolist.ui.MealAdapter
 import retrofit2.Response
 
 class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::inflate) {
 
     private lateinit var mealDao: MealDao
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        return binding.root
-    }
+    private val authViewModel: AuthViewModel by activityViewModels() // Shared ViewModel
 
     override fun init(view: View) {
         mealDao = MealDao()
@@ -50,13 +48,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
             GlobalScope.launch(Dispatchers.Main) {
                 try {
                     val response: Response<LoginResponse> = mealDao.login(email, password)
-
+                    Log.d("Response", response.body().toString())
                     if (response.isSuccessful) {
                         // Login successful, navigate to the next screen
                         hideProgressBar()
-                        //findNavController().navigate(R.id.action_loginFragment_to_mainFragment)
-//                        val action =
-//                        findNavController().navigate(action)
+                        val token = response.body()?.access_token
+                        Log.d("Token", token.toString())
+                        token?.let {
+                            authViewModel.setLoggedIn(true)
+                            authViewModel.setToken(it)
+                        }
+                        val action = LoginFragmentDirections.actionLoginFragmentToManagerFragment()
+                        findNavController().navigate(action)
                     } else {
                         // Login failed, show error message
                         hideProgressBar()
@@ -65,7 +68,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                 } catch (e: Exception) {
                     // Exception occurred, show error message
                     hideProgressBar()
-                    showResponseError("Login failed: ${e.message}")
+                    showResponseError("Logi n failed: ${e.message}")
                 }
             }
         } else {
