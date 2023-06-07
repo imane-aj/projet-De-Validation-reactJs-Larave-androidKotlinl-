@@ -1,6 +1,92 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/cardview"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="250dp"
+    android:layout_margin="4dp"
+    app:cardBackgroundColor="#EFEEEE"
+    app:cardCornerRadius="8dp"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardElevation="4dp">
 
-</LinearLayout>
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <!-- Column titles -->
+        <TableRow>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Image"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:text="Name"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="Quantity"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Action"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+        </TableRow>
+
+        <!-- Data row -->
+        <TableRow>
+
+            <ImageView
+                android:id="@+id/imagePan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                tools:srcCompat="@tools:sample/backgrounds/scenic"
+                android:layout_weight="1" />
+
+            <TextView
+                android:id="@+id/namePan"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="Tajin meat"
+                android:textSize="16sp"
+                android:layout_weight="2" />
+
+            <TextView
+                android:id="@+id/quantity"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:text="1"
+                android:textSize="16sp"
+                android:layout_weight="1" />
+
+            <Button
+                android:id="@+id/delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Delete"
+                android:background="@android:color/holo_green_dark" />
+
+        </TableRow>
+
+    </TableLayout>
+
+</androidx.cardview.widget.CardView>

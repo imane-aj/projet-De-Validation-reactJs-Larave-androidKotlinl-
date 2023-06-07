@@ -1,11 +1,13 @@
 package prototype.todolist.ui
 
 
+import LoginFragmentDirections
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -15,10 +17,13 @@ import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import prototype.todolist.R
+import prototype.todolist.dao.MealDao
 import prototype.todolist.databinding.FragmentManagerBinding
 import prototype.todolist.repositories.MealRepository
 import prototype.todolist.utils.Status
@@ -33,7 +38,7 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(FragmentManagerBind
 
     override fun init(view: View) {
         this.setProgressBar(R.id.progressBar)
-        adapter =  MealAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository() )
+        adapter =  MealAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository(), MealDao())
         binding.apply {
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter =  adapter
@@ -72,4 +77,24 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(FragmentManagerBind
 
     }
 
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.login -> {
+                val action = ManagerFragmentDirections.actionManagerFragmentToLoginFragment()
+                findNavController().navigate(action)
+                return true
+            }
+            R.id.panier -> {
+                val action = ManagerFragmentDirections.actionManagerFragmentToPanierFragment(id)
+                findNavController().navigate(action)
+                return true
+            }
+            else -> return super.onContextItemSelected(item)
+        }
+        
+    }
 }

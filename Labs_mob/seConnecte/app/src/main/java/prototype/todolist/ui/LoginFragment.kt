@@ -1,4 +1,5 @@
 
+
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -53,10 +54,15 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                         // Login successful, navigate to the next screen
                         hideProgressBar()
                         val token = response.body()?.access_token
-                        Log.d("Token", token.toString())
+                        val userId = response.body()?.user?.get("id")?.toString()?.toDoubleOrNull()?.toInt()
+                        //Log.d("user fromLogin", response.body()?.user.toString())
+                        Log.d("userId fromLogin", userId.toString())
                         token?.let {
                             authViewModel.setLoggedIn(true)
                             authViewModel.setToken(it)
+                        }
+                        userId?.let {
+                            authViewModel.setUserId(it)
                         }
                         val action = LoginFragmentDirections.actionLoginFragmentToManagerFragment()
                         findNavController().navigate(action)

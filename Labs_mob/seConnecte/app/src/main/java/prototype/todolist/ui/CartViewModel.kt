@@ -1,21 +1,22 @@
 package prototype.todolist.ui
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.liveData
+import prototype.todolist.dao.MealDao
+import prototype.todolist.model.Cart
 import prototype.todolist.repositories.MealRepository
 import prototype.todolist.utils.Resource
 
-class MealViewModel : ViewModel() {
+class CartViewModel(private val mealRepository: MealRepository,private val token: String) : ViewModel() {
 
-    private val mealRepository = MealRepository()
-
-    fun getMeals() = liveData() {
+    fun getFromCart(): LiveData<Resource<List<Cart>>> = liveData {
         emit(Resource.loading(data = null))
         try {
-            emit(Resource.success(data = mealRepository.getMeals()))
+            val cartItems = mealRepository.getFromCart(token)
+            emit(Resource.success(data = cartItems))
         } catch (exception: Exception) {
             emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
         }
     }
-
 }

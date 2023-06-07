@@ -18,13 +18,15 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import prototype.todolist.R
+import prototype.todolist.dao.MealDao
 import prototype.todolist.model.Meal
 import prototype.todolist.repositories.MealRepository
 
 class MealAdapter(private val meals: ArrayList<Meal>, navController: NavController ,
                   var isLoggedIn: Boolean,
                   private val authViewModel: AuthViewModel,
-                  private val mealRepository: MealRepository
+                  private val mealRepository: MealRepository,
+                  private val mealDao: MealDao
     )
     : RecyclerView.Adapter<MealAdapter.DataViewHolder>() {
 
@@ -39,8 +41,9 @@ class MealAdapter(private val meals: ArrayList<Meal>, navController: NavControll
             mealName.text = meal.name
             mealPrice.text = meal.price.toString()
             // Load image using Picasso
-            val imageUrl = "http://192.168.2.3:8000/api/images/products/${meal.img}"
-            Picasso.get().load(meal.img).into(mealImg)
+            val imageUrl = "http://192.168.2.3:8000/images/products/${meal.img}"
+            Log.d("img", meal.img.toString())
+            Picasso.get().load(imageUrl).into(mealImg)
         }
     }
 
@@ -63,17 +66,27 @@ class MealAdapter(private val meals: ArrayList<Meal>, navController: NavControll
             if (isLoggedIn) {
                 // User is logged in, show data added message
                 val token = authViewModel.getToken() // Retrieve token from AuthViewModel
-                Log.d("token", token.orEmpty())
+                val userId = authViewModel.getUserId()
+                Log.d("userId", userId.toString())
+                Log.d("token", token.toString())
                 CoroutineScope(Dispatchers.Main).launch {
                     try {
-                        val response = mealRepository.addToCart(token, meal.id)
+                        val response = mealDao.addToCart("Bearer $token", meal.id, userId)
+                        Log.d("response", response.toString())
                         if (response.isSuccessful) {
-                            showToast(context, "The meal was added successfully")
+                            val cartResponse = response.body()
+                            if (cartResponse != null) {
+                                showToast(context, "The meal was added successfully")
+                                Log.d("response", cartResponse.toString())
+                            }else {
+                                showToast(context, "Empty response received from the server")
+                            }
                         } else {
                             showToast(context, "Failed to add the meal to the cart")
                         }
                     } catch (e: Exception) {
                         showToast(context, "An error occurred: ${e.message}")
+                        Log.d("error", e.message.toString())
                     }
                 }
             } else {

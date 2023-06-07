@@ -3,12 +3,15 @@ package prototype.todolist.ui
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
+import prototype.todolist.R
 
 
 typealias Inflater<T> = (inflater: LayoutInflater, view: ViewGroup?, attach: Boolean) -> T
@@ -24,6 +27,7 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflater: Inflater<VB>)
         savedInstanceState: Bundle?,
     ): View? {
         _binding = this.inflater.invoke(inflater, container, false)
+        setHasOptionsMenu(true)
         return binding.root
     }
 
@@ -33,6 +37,7 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflater: Inflater<VB>)
         listeners(view)
 
     }
+
     abstract fun listeners(view: View)
 
     abstract fun init(view: View)

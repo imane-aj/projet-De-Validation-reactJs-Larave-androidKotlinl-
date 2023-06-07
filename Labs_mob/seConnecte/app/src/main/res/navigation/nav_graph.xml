@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/managerFragment"
         android:name="prototype.todolist.ui.ManagerFragment"
-        android:label="fragment_manager"
+        android:label="Foodify"
         tools:layout="@layout/fragment_manager" >
         <action
             android:id="@+id/action_managerFragment_to_panierFragment"
@@ -29,7 +29,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="LoginFragment"
-        android:label="LoginFragment"
+        android:label="Login"
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_loginFragment_to_managerFragment"

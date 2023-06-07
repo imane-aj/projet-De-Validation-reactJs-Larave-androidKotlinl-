@@ -6,14 +6,14 @@ import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import com.google.gson.JsonObject
-import org.json.JSONObject
 import prototype.todolist.model.LoginResponse
 import prototype.todolist.model.Meal
 import retrofit2.Response
 import okhttp3.RequestBody
-import okhttp3.MediaType
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.RequestBody.Companion.toRequestBody
+import prototype.todolist.model.Cart
+import prototype.todolist.model.CartResponse
 
 
 class MealDao {
@@ -75,7 +75,45 @@ class MealDao {
         return requestBodyJson.toRequestBody(mediaType)
     }
 
-    suspend fun addToCart(token: String, mealId: Int): Response<JsonObject> {
-        return apiService.addToCart("Bearer $token", mealId)
+    suspend fun addToCart(token: String?, productId: Int, userId: Int?): Response<CartResponse> {
+        return try {
+            apiService.addToCart(token, productId, userId)
+        } catch (e: Exception) {
+            // Log the exception for debugging
+            Log.e("addToCart", "An error occurred: ${e.message}", e)
+            throw Exception("An error occurred while adding the meal to the cart: ${e.message}")
+        }
     }
+
+    suspend fun getFromCart(token: String): List<Cart> {
+        val response: Response<JsonObject> = apiService.getFromCart(token)
+        Log.d(response.code().toString(), "Response Code")
+        if (response.isSuccessful) {
+            val responseBody: JsonObject? = response.body() as? JsonObject
+            val dataObject: JsonObject? = responseBody?.getAsJsonObject("data")
+            val cartItemsArray: JsonArray? = dataObject?.getAsJsonArray("data")
+
+            val cartList = mutableListOf<Cart>()
+
+            cartItemsArray?.forEach { jsonElement ->
+                if (jsonElement.isJsonObject) {
+                    val cartItemObject: JsonObject = jsonElement.asJsonObject
+                    val quantity: Int? = cartItemObject.get("qtity")?.asInt
+                    val imageUrl: String? = cartItemObject.get("img")?.asString
+                    val name: String? = cartItemObject.get("name")?.asString
+                    val productId: Int = cartItemObject.get("product_id")?.asInt ?: 0
+                    val userId: Int = cartItemObject.get("user_id")?.asInt ?: 0
+
+                    val cartItem = Cart(quantity, imageUrl, name, productId, userId)
+                    cartList.add(cartItem)
+                }
+            }
+
+            return cartList
+        }
+
+        throw Exception("Failed to get cart items")
+    }
+
+
 }

@@ -22,4 +22,16 @@ class AuthViewModel : ViewModel() {
     fun getToken(): String? {
         return _token.value
     }
+
+    //user id
+    private val _userId = MutableLiveData<Int>()
+    val userId: LiveData<Int> get() = _userId
+
+    fun setUserId(userId: Int) {
+        _userId.value = userId
+    }
+
+    fun getUserId(): Int? {
+        return _userId.value
+    }
 }

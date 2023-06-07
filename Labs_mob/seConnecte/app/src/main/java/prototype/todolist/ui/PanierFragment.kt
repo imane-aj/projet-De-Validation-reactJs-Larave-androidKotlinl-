@@ -1,105 +1,89 @@
-//package prototype.todolist.ui
+package prototype.todolist.ui
 //
-//import android.os.Bundle
-//import androidx.fragment.app.Fragment
-//import android.view.LayoutInflater
-//import android.view.View
-//import android.view.ViewGroup
-//import android.widget.TextView
-//import androidx.appcompat.widget.AppCompatImageButton
-//import androidx.navigation.fragment.navArgs
-//import prototype.todolist.R
-//import prototype.todolist.data.MealEntry
-//import prototype.todolist.repositories.MealRepository
-//
-//class PanierFragment : Fragment() {
-//    private val args: PanierFragmentArgs by navArgs()
-//
-//    private lateinit var mealRepository: MealRepository
-//    private val selectedMeals: MutableList<MealEntry> = mutableListOf()
-//
-//    override fun onCreateView(
-//        inflater: LayoutInflater, container: ViewGroup?,
-//        savedInstanceState: Bundle?
-//    ): View? {
-//        return inflater.inflate(R.layout.fragment_panier, container, false)
-//    }
-//
-//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-//        super.onViewCreated(view, savedInstanceState)
-//
-//        val mealId = args.mealId
-//
-//        val nameTextView: TextView = view.findViewById(R.id.namePan)
-//        val priceTextView: TextView = view.findViewById(R.id.pricePan)
-//
-//        mealRepository = MealRepository()
-//
-//        val meal = mealRepository.findById(mealId)
-//
-//        meal?.let {
-//            selectedMeals.add(it)
-//        }
-//
-//        updateUI()
-//
-//        // Handle click events to add/remove items
-//        view.findViewById<AppCompatImageButton>(R.id.add)?.setOnClickListener {
-//            meal?.let {
-//                if (selectedMeals.contains(it)) {
-//                    selectedMeals.remove(it)
-//                } else {
-//                    selectedMeals.add(it)
-//                }
-//                updateUI()
-//            }
-//        }
-//    }
-//
-//    private fun updateUI() {
-//        val nameTextView: TextView = requireView().findViewById(R.id.namePan)
-//        val priceTextView: TextView = requireView().findViewById(R.id.pricePan)
-//
-//        if (selectedMeals.isEmpty()) {
-//            nameTextView.text = ""
-//            priceTextView.text = ""
-//        } else {
-//            val meal = selectedMeals.last()
-//            nameTextView.text = meal.name
-//            priceTextView.text = meal.price.toString()
-//        }
-//    }
-//}
-//
-//
-//
-//
-////class PanierFragment : Fragment() {
-////    private val args: PanierFragmentArgs by navArgs()
-////
-////    private lateinit var mealRepository: MealRepository
-////
-////    override fun onCreateView(
-////        inflater: LayoutInflater, container: ViewGroup?,
-////        savedInstanceState: Bundle?
-////    ): View? {
-////        return inflater.inflate(R.layout.fragment_panier, container, false)
-////    }
-////
-////    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-////        super.onViewCreated(view, savedInstanceState)
-////
-////        val mealId = args.mealId
-////
-////        val nameTextView: TextView = view.findViewById(R.id.namePan)
-////        val priceTextView: TextView = view.findViewById(R.id.pricePan)
-////
-////        mealRepository = MealRepository()
-////
-////        val meal = mealRepository.findById(mealId)
-////
-////        nameTextView.text = meal?.name
-////        priceTextView.text = meal?.price.toString()
-////    }
-////}
-//
+import android.os.Bundle
+import android.util.Log
+import androidx.fragment.app.Fragment
+import android.view.LayoutInflater
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
+import android.view.View
+import android.view.ViewGroup
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.widget.AppCompatImageButton
+import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import prototype.todolist.R
+import prototype.todolist.dao.MealDao
+import prototype.todolist.databinding.FragmentPanierBinding
+import prototype.todolist.repositories.MealRepository
+import prototype.todolist.utils.Status
+
+
+class PanierFragment : BaseFragment<FragmentPanierBinding>(FragmentPanierBinding::inflate) {
+
+    private val viewModel: CartViewModel by viewModels()
+    private lateinit var adapter: PanierAdapter
+    private var isLoggedIn: Boolean = false
+    private val authViewModel: AuthViewModel by activityViewModels() // Shared ViewModel
+
+    override fun init(view: View) {
+        this.setProgressBar(R.id.progressBar)
+        adapter =  PanierAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository(), MealDao())
+        binding.apply {
+            recyclerPanier.layoutManager = LinearLayoutManager(context)
+            recyclerPanier.adapter =  adapter
+        }
+
+        //getFromCart
+        viewModel.getFromCart().observe(viewLifecycleOwner, Observer {
+            when (it.status) {
+                Status.LOADING -> this.showProgressBar()
+                Status.ERROR -> this.showResponseError(it.message.toString())
+                Status.SUCCESS -> {
+                    binding.recyclerPanier.visibility = View.VISIBLE
+                    binding.progressBar.visibility = View.GONE
+                    adapter.apply {
+                        addPanier(it.data!!)
+                        notifyDataSetChanged()
+                    }
+                }
+            }
+        })
+
+
+    }
+
+
+    //
+    override fun listeners(view: View) {
+
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        inflater.inflate(R.menu.menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.login -> {
+                val action = ManagerFragmentDirections.actionManagerFragmentToLoginFragment()
+                findNavController().navigate(action)
+                return true
+            }
+            else -> return super.onContextItemSelected(item)
+        }
+
+    }
+}
+
