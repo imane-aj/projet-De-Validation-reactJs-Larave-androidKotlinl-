@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -34,12 +35,12 @@ class PanierAdapter(private val carts: ArrayList<Cart>, navController: NavContro
     private val navController = navController
     class DataViewHolder(private val view: View) : RecyclerView.ViewHolder(view) {
         val mealName: TextView = view.findViewById<Button>(R.id.namePan)
-        val mealQtity: TextView = view.findViewById<Button>(R.id.quantity)
+        //val mealQtity: TextView = view.findViewById<Button>(R.id.quantity)
         val mealImg: ImageView = view.findViewById<ImageView>(R.id.imagePan)
-        val delete: AppCompatImageButton  = view.findViewById(R.id.delete)
+        val delete: ImageButton  = view.findViewById(R.id.delete)
         fun bind(cart: Cart) {
             mealName.text = cart.name
-            mealQtity.text = cart.qtity.toString()
+            //mealQtity.text = cart.qtity.toString()
             // Load image using Picasso
             val imageUrl = "http://192.168.2.3:8000/images/products/${cart.img}"
             Log.d("img", cart.img.toString())

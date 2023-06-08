@@ -1,7 +1,9 @@
 package prototype.todolist.dao.api
 
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import okhttp3.RequestBody
+import prototype.todolist.model.Cart
 import prototype.todolist.model.CartResponse
 import prototype.todolist.model.LoginResponse
 import retrofit2.Response
@@ -34,6 +36,7 @@ interface MealApiInterface {
     @Headers("api-password: Eld5TBhHgiIZgJk4c4VEtlnNxY")
     @GET("cart/product")
     suspend fun getFromCart(
-        @Header("Authorization") token: String?,
+        @Header("Authorization") token: String?
     ): Response<JsonObject>
+
 }

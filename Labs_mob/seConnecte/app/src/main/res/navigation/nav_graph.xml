@@ -20,7 +20,7 @@
     <fragment
         android:id="@+id/panierFragment"
         android:name="prototype.todolist.ui.PanierFragment"
-        android:label="fragment_panier"
+        android:label="Shipping cart"
         tools:layout="@layout/fragment_panier" >
         <argument
             android:name="mealId"

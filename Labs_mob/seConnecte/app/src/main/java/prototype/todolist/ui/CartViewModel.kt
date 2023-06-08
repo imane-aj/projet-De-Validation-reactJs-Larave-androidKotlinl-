@@ -8,15 +8,21 @@ import prototype.todolist.model.Cart
 import prototype.todolist.repositories.MealRepository
 import prototype.todolist.utils.Resource
 
-class CartViewModel(private val mealRepository: MealRepository,private val token: String) : ViewModel() {
+class CartViewModel(
+    private val mealRepository: MealDao,
+    private val token: String
+) : ViewModel() {
 
-    fun getFromCart(): LiveData<Resource<List<Cart>>> = liveData {
+    fun getCartItems(): LiveData<Resource<List<Cart>>> = liveData {
         emit(Resource.loading(data = null))
         try {
-            val cartItems = mealRepository.getFromCart(token)
+            val cartItems = mealRepository.getCartItems(token)
             emit(Resource.success(data = cartItems))
         } catch (exception: Exception) {
             emit(Resource.error(data = null, message = exception.message ?: "Error Occurred!"))
         }
     }
 }
+
+
+

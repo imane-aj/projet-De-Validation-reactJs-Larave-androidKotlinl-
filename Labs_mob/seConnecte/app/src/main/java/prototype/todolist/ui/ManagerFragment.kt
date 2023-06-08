@@ -43,7 +43,7 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(FragmentManagerBind
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter =  adapter
         }
-        // getUsers observe
+        // getMeals observe
         viewModel.getMeals().observe(viewLifecycleOwner, Observer {
             when (it.status) {
                 Status.LOADING -> this.showProgressBar()

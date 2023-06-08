@@ -11,7 +11,9 @@ class MealRepository () {
 
     //suspend fun addToCart(token: String, mealId: Int, userId: Int) = mealDao.addToCart(token: String, mealId: Int, userId: Int)
 
-    suspend fun getFromCart(token: String): List<Cart> {
-        return mealDao.getFromCart(token)
-    }
+//    suspend fun getFromCart(token: String): List<Cart> {
+//        return mealDao.getFromCart(token)
+//    }
+
+
 }

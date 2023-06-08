@@ -65,7 +65,7 @@ abstract class BaseFragment<VB: ViewBinding>(private val inflater: Inflater<VB>)
 
     protected open fun showResponseError(message : String){
         this.hideProgressBar()
-        Log.d("tasks",message )
+        Log.d("meal",message )
         Toast.makeText(activity, message, Toast.LENGTH_LONG).show()
     }
 }

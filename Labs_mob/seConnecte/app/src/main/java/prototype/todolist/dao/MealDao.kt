@@ -1,10 +1,12 @@
 package prototype.todolist.dao
 import android.util.Log
+import androidx.navigation.navArgument
 import prototype.todolist.dao.api.MealApiInterface
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import com.google.gson.Gson
 import com.google.gson.JsonArray
+import com.google.gson.JsonElement
 import com.google.gson.JsonObject
 import prototype.todolist.model.LoginResponse
 import prototype.todolist.model.Meal
@@ -85,35 +87,52 @@ class MealDao {
         }
     }
 
-    suspend fun getFromCart(token: String): List<Cart> {
-        val response: Response<JsonObject> = apiService.getFromCart(token)
+    suspend fun getCartItems(token: String): List<Cart> {
+        val response: Response<JsonObject> = apiService.getFromCart("Bearer $token")
         Log.d(response.code().toString(), "Response Code")
+
         if (response.isSuccessful) {
-            val responseBody: JsonObject? = response.body() as? JsonObject
-            val dataObject: JsonObject? = responseBody?.getAsJsonObject("data")
-            val cartItemsArray: JsonArray? = dataObject?.getAsJsonArray("data")
+            val responseData: JsonObject? = response.body()
+            Log.d("cart product", responseData.toString())
 
-            val cartList = mutableListOf<Cart>()
+            if (responseData?.getAsJsonArray("data") is JsonArray) {
+                val mealList = mutableListOf<Cart>()
 
-            cartItemsArray?.forEach { jsonElement ->
-                if (jsonElement.isJsonObject) {
-                    val cartItemObject: JsonObject = jsonElement.asJsonObject
-                    val quantity: Int? = cartItemObject.get("qtity")?.asInt
-                    val imageUrl: String? = cartItemObject.get("img")?.asString
-                    val name: String? = cartItemObject.get("name")?.asString
-                    val productId: Int = cartItemObject.get("product_id")?.asInt ?: 0
-                    val userId: Int = cartItemObject.get("user_id")?.asInt ?: 0
+                val list = responseData.get("data").asJsonArray
+                list.forEach { jsonElement ->
+                    if (jsonElement.isJsonObject) {
+                        val cartObject: JsonObject = jsonElement.asJsonObject
+                        val qtity: Int? = cartObject.get("qtity")?.asInt
+                        val name: String? = cartObject.getAsJsonObject("product")?.get("name")?.asString
+                        val img: String? = cartObject.getAsJsonObject("product")?.get("img")?.asString
+                        val product_id: Int? = cartObject.getAsJsonObject("product")?.get("id")?.asInt
+                        val user_id: Int? = cartObject.get("user_id")?.asInt
 
-                    val cartItem = Cart(quantity, imageUrl, name, productId, userId)
-                    cartList.add(cartItem)
+                        if (qtity != null && name != null  && img != null && product_id != null && user_id != null) {
+                            val cart = Cart(qtity, name, img, product_id, user_id)
+                            mealList.add(cart)
+                        } else {
+                            Log.e("Parsing Error", "One or more fields are null")
+                        }
+                    } else {
+                        Log.e("Parsing Error", "JSON element is not a JsonObject")
+                    }
                 }
-            }
 
-            return cartList
+                return mealList
+            } else {
+                Log.e("Parsing Error", "Response body is not a JsonArray")
+            }
+        } else {
+            Log.e("API Error", "Failed to fetch data from API")
         }
 
-        throw Exception("Failed to get cart items")
+        throw Exception("Failed to get meals")
     }
+
+
+
+
 
 
 }

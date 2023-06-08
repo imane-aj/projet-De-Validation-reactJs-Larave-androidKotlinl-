@@ -32,12 +32,16 @@ import prototype.todolist.utils.Status
 
 class PanierFragment : BaseFragment<FragmentPanierBinding>(FragmentPanierBinding::inflate) {
 
-    private val viewModel: CartViewModel by viewModels()
+    private lateinit var viewModel: CartViewModel
     private lateinit var adapter: PanierAdapter
     private var isLoggedIn: Boolean = false
     private val authViewModel: AuthViewModel by activityViewModels() // Shared ViewModel
 
     override fun init(view: View) {
+        val mealRepository = MealDao()
+        val token = authViewModel.getToken() ?: ""
+        viewModel = CartViewModel(mealRepository, token)
+
         this.setProgressBar(R.id.progressBar)
         adapter =  PanierAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository(), MealDao())
         binding.apply {
@@ -46,7 +50,8 @@ class PanierFragment : BaseFragment<FragmentPanierBinding>(FragmentPanierBinding
         }
 
         //getFromCart
-        viewModel.getFromCart().observe(viewLifecycleOwner, Observer {
+        viewModel.getCartItems().observe(viewLifecycleOwner, Observer {
+            Log.d("cart product", it.data.toString())
             when (it.status) {
                 Status.LOADING -> this.showProgressBar()
                 Status.ERROR -> this.showResponseError(it.message.toString())
