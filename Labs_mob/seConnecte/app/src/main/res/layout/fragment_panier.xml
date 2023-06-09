@@ -17,10 +17,16 @@
         app:layout_constraintTop_toTopOf="parent" />
     <TableLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:layout_marginTop="20dp"
+        >
 
     <!-- Column titles -->
-    <TableRow>
+    <TableRow
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_height="200dp"
+        android:layout_marginBottom="20dp">
 
         <TextView
             android:layout_width="0dp"
@@ -34,9 +40,10 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
-            android:text="Name"
+            android:text="Meal Name"
+            android:layout_marginLeft="8dp"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"/>
 
 <!--        <TextView-->
 <!--            android:layout_width="0dp"-->
@@ -51,7 +58,8 @@
             android:layout_height="wrap_content"
             android:text="Action"
             android:textSize="16sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:gravity="center"/>
 
     </TableRow>
 

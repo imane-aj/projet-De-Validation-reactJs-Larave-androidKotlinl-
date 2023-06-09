@@ -43,7 +43,7 @@ class PanierFragment : BaseFragment<FragmentPanierBinding>(FragmentPanierBinding
         viewModel = CartViewModel(mealRepository, token)
 
         this.setProgressBar(R.id.progressBar)
-        adapter =  PanierAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository(), MealDao())
+        adapter =  PanierAdapter(arrayListOf(), view.findNavController(), authViewModel, MealRepository(), MealDao())
         binding.apply {
             recyclerPanier.layoutManager = LinearLayoutManager(context)
             recyclerPanier.adapter =  adapter

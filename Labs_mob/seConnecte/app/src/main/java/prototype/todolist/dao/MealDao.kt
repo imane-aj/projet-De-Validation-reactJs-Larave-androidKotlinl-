@@ -102,14 +102,15 @@ class MealDao {
                 list.forEach { jsonElement ->
                     if (jsonElement.isJsonObject) {
                         val cartObject: JsonObject = jsonElement.asJsonObject
+                        val id: Int = cartObject.get("id").asInt
                         val qtity: Int? = cartObject.get("qtity")?.asInt
                         val name: String? = cartObject.getAsJsonObject("product")?.get("name")?.asString
                         val img: String? = cartObject.getAsJsonObject("product")?.get("img")?.asString
                         val product_id: Int? = cartObject.getAsJsonObject("product")?.get("id")?.asInt
                         val user_id: Int? = cartObject.get("user_id")?.asInt
 
-                        if (qtity != null && name != null  && img != null && product_id != null && user_id != null) {
-                            val cart = Cart(qtity, name, img, product_id, user_id)
+                        if (qtity != null && qtity != null && name != null  && img != null && product_id != null && user_id != null) {
+                            val cart = Cart(id, qtity, name, img, product_id, user_id)
                             mealList.add(cart)
                         } else {
                             Log.e("Parsing Error", "One or more fields are null")
@@ -131,8 +132,17 @@ class MealDao {
     }
 
 
-
-
-
-
+    suspend fun deleteCart(token: String?, id: Int): Response<JsonObject> {
+        val response: Response<JsonObject> = apiService.deleteCart("Bearer $token", id)
+        Log.d("fromDao", response.toString())
+        Log.d("fromDao Bearer", token.toString())
+        Log.d("fromDaoid", id.toString())
+        return try {
+            response
+        } catch (e: Exception) {
+            // Log the exception for debugging
+            Log.e("deleteCart", "An error occurred: ${e.message}", e)
+            throw Exception("An error occurred while deleting the cart: ${e.message}")
+        }
+    }
 }

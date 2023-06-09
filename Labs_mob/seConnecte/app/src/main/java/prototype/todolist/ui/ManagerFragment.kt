@@ -38,7 +38,7 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(FragmentManagerBind
 
     override fun init(view: View) {
         this.setProgressBar(R.id.progressBar)
-        adapter =  MealAdapter(arrayListOf(), view.findNavController(), isLoggedIn, authViewModel, MealRepository(), MealDao())
+        adapter =  MealAdapter(arrayListOf(), view.findNavController(), authViewModel, MealRepository(), MealDao())
         binding.apply {
             recyclerView.layoutManager = GridLayoutManager(context, 2)
             recyclerView.adapter =  adapter
@@ -57,10 +57,6 @@ class ManagerFragment : BaseFragment<FragmentManagerBinding>(FragmentManagerBind
                     }
                 }
             }
-        })
-
-        authViewModel.isLoggedIn.observe(viewLifecycleOwner, Observer { isLoggedIn ->
-            adapter.isLoggedIn = isLoggedIn
         })
 
         authViewModel.token.observe(viewLifecycleOwner, Observer { token ->

@@ -23,7 +23,7 @@ import prototype.todolist.model.Meal
 import prototype.todolist.repositories.MealRepository
 
 class MealAdapter(private val meals: ArrayList<Meal>, navController: NavController ,
-                  var isLoggedIn: Boolean,
+
                   private val authViewModel: AuthViewModel,
                   private val mealRepository: MealRepository,
                   private val mealDao: MealDao
@@ -63,6 +63,7 @@ class MealAdapter(private val meals: ArrayList<Meal>, navController: NavControll
 
         dataViewHolder.add.setOnClickListener {
             val context = dataViewHolder.itemView.context
+            val isLoggedIn = authViewModel.getLoggedIn()
             if (isLoggedIn) {
                 // User is logged in, show data added message
                 val token = authViewModel.getToken() // Retrieve token from AuthViewModel

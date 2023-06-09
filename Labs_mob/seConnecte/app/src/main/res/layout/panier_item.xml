@@ -28,13 +28,15 @@
         android:scaleType="centerCrop" />
 
     <TextView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="20dp"
         android:gravity="center"
             android:id="@+id/namePan"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:text="Tajin meat"
+            android:layout_marginLeft="3dp"
+            android:layout_marginRight="3dp"
             android:textSize="16sp" />
 
 <!--        <TextView-->
@@ -52,7 +54,7 @@
             android:textColor="#B82A2A"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="19dp"
             android:background="@drawable/delete"
             android:layout_marginRight="4dp"
 

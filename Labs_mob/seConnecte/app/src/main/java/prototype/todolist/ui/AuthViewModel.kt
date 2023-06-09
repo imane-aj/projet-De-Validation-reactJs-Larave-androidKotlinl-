@@ -14,6 +14,9 @@ class AuthViewModel : ViewModel() {
     fun setLoggedIn(value: Boolean) {
         _isLoggedIn.value = value
     }
+    fun getLoggedIn(): Boolean {
+        return _isLoggedIn.value ?: false
+    }
 
     fun setToken(token: String) {
         _token.value = token

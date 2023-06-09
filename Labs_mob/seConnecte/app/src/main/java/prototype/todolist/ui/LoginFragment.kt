@@ -53,6 +53,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(FragmentLoginBinding::i
                     if (response.isSuccessful) {
                         // Login successful, navigate to the next screen
                         hideProgressBar()
+                        authViewModel.setLoggedIn(true)
                         val token = response.body()?.access_token
                         val userId = response.body()?.user?.get("id")?.toString()?.toDoubleOrNull()?.toInt()
                         //Log.d("user fromLogin", response.body()?.user.toString())
